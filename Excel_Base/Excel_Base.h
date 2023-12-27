@@ -59,7 +59,7 @@ namespace Excel
 			}
 			catch (const exception& e)
 			{
-				std::cout << "bad excel error: " << e.what() << std::endl;
+				std::cout << e.what() << std::endl;
 			}
 			
 			return res;
@@ -67,12 +67,17 @@ namespace Excel
 		vector<string> titles{};
 	private:
 		template<typename T>
-		void StringToData(T& data, string s)
+		void StringToData(T& data, string&& s)
 		{
 			stringstream ss{ s };
 			ss >> data;
 		}
 
+		template<>
+		void StringToData(string& data, string&& s)
+		{
+			data = s;
+		}
 	private:
 		string filename;
 	};
